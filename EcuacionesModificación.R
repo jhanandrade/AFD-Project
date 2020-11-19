@@ -2,7 +2,7 @@
 # New Variables and Parameters
 ##################################
 
-#Intermediate
+
 X_a #Autonomous exports
 Divf_W = (EQf_W/EQf)*Divf    #Firms Dividends paid to the RoW
 Divf_H = (EQf_H/EQf)*Divf    #Firms Dividends paid to the households
