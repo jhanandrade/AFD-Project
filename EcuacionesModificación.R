@@ -267,7 +267,7 @@ RfxcbintDot=ifelse((BgrowDot+LfxfDot)>=0.001, max(Sigma*IM*pw-Rfxcb,0), Sigma*IM
 #-------------------------------
 #World Trends & Portfolio flows
 #-------------------------------
-#Global Capital Flows*****
+#Global Capital Flows
 GFF=alphagff*GDPw*pw# (*Nominal, foreign currency*)(*90*)
 #Share of portfolio flows/government bonds entering to the economy*****
 psi_wffd = psi0 + psi1*(arbrow)      
@@ -343,7 +343,7 @@ a=a*(alphaa) #Labour Productivity Growth (*76*)
 Pop=Pop*alphap #Population Growth (*Not numbered)
 w=w*(omega0+omega1*(L/Pop-omega3)+omega2*pDot/p)#Change in nominal wages (*Nominal, domestic currency*)(*77*)
 Cond=betacon*(ConTd-Cond)#Change in Consumption level (*Nominal, domestic currency*) (*84)
-Ldh = ipsilon0 + ipsilon1*(Cond)^ipsilon2   #Households loans demand
+Ldh = ipsilon1*(Cond)^ipsilon2   #Households loans demand
 Bgh =upsilonH*Sh #Government Bonds Purchased by the Households(*Nominal, domestic currency*)(*86*)
 Deph=Sh-BghDot #New Households Deposits (*Nominal, domestic currency*)(*87*)
 Depg =  thetar*(tau_r*X_a) #New Government Deposits
@@ -361,22 +361,22 @@ OFb = REb #Change in the funds owned by the banks (*Nominal, domestic currency*)
 idLf=betaidLf*(idLftar-idLf)#Change in interest rate on domestic loans (*60*)
 Fdi = gammafdi*Fdi #Total FDI growth
 EQ_W = EQf_WDot + EQb_WDot    #Change in total equities owned by the RoW
-EQf_W = Fdi_G*en + xi_f*Fdi_NG*en  #Change in Firms equities owned by the RoW
-EQb_W=(1-xi_f)*Fdi_NG*en    #Change in Banks equities owned by the RoW
+EQf_W = Fdi_G*en + xi_f*Fdi_NG*en +(REf-delta*Kap)*(EQf_W/EQf) #Change in Firms equities owned by the RoW
+EQb_W=(1-xi_f)*Fdi_NG*en+REb*(EQf_H/EQf)    #Change in Banks equities owned by the RoW
 EQ_H = EQf_HDot + EQb_HDot  #Change in total equities owned by the household
-EQf_H=????#Change in Firms equities owned by the households***
-EQb_H=????#Change in Banks equities owned by the households***
-EQf=EQf_WDot+EQf_HDot   #Change in Firms equities
-EQb=EQb_WDot+EQb_HDot#Change in Banks equities 
+EQf_H=EQfDot-EQf_WDot#Change in Firms equities owned by the households***
+EQb_H=EQbDot-EQb_WDot#Change in Banks equities owned by the households***
+EQf=Fdi_G*en + xi_f*Fdi_NG*en +REf -delta*Kap  #Change in Firms equities
+EQb=(LdfDot+LdhDot+BgbDot)-(AdDot+(1-rrr)*(DephDot+DepgDot)) #Change in Banks equities 
 en =en*betae*(Dfx -Sfx)/Sfx #Change in Nominal Exchange Rate (*96*)
 ene=betaene*(Upsilon*((((1+ifp)/((1+ip)*(1-rsk))))^sigmaene)*en-ene) #Change in the expected nominal exchange rate (*99*)
 Rem= fi_r*Rem      #Remittances growth
 Rfx=EX/en-IM*pw+BgrowDot/en+Fdi+LfxbDot+IA/en  #Change in Domestic FX reserves (*Nominal, foreign currency*)
-Bgrow= betagff*GFF*en #Government Bonds Purchased by RoW (*Nominal, domestic currency*)(*103*)***
+Bgrow= psi_wffd*GFF*en #Government Bonds Purchased by RoW (*Nominal, domestic currency*)(*103*)***
 GDPw=(alphap+alphaa)*GDPw #World GDP growth (*Not numbered)
 pw=pw*infls #World Inflation Rate (*Not numbered)
 ##initial values
-Ye=54.131971310113215
+Ye=54.131971310113215 #Normalizar a 100 y ajustar las demás variables acorde a Ye
 V=5.255531195156623
 sigmaMX=0.2
 sigmaMI=0.3
@@ -386,7 +386,7 @@ sigmaX=0.008023300970873786
 X_a=
 HUC=0.656073223897936
 p=1
-Kap=100
+Kap=100 #Capital to Output Ratio
 Lfxfdes=
 Lfxb=5.93779845745427
 Lfxf=5.93779845745427
@@ -580,7 +580,6 @@ taumI=
 psi0=
 psi1=
 etafg=
-ipsilon0=
 ipsilon2=
 betagi=
 fi_r=
