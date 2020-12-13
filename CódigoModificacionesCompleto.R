@@ -1,86 +1,3 @@
-##################################
-# New Variables and Parameters
-##################################
-
-
-X_a #Autonomous exports
-Divf_W = (EQf_W/EQf)*Divf    #Firms Dividends paid to the RoW
-Divf_H = (EQf_H/EQf)*Divf    #Firms Dividends paid to the households
-EQf       #Firms equities
-EQf_W     #Firms equities owned by the RoW (Stock)
-EQf_H     #Firms equities owned by the households (Stock)
-ConTd     #Desired Target Consumption
-Cond      #Desired Consumption
-Ldh       #Households indebtness
-ipsilon1 = 1-Bur  #sensitivity to desired consumption
-Bur =((rep+idLh)*Ldh/(1-tauw)*w*L)    #Burden of the households
-Con = Cond + LdhDot #Consumption
-Depg      #Government Deposits
-Gd = Go + Gi    #Government demand
-Go = fi1*(Yp*p)  #Government operating expenses
-GiT = fi2*(Yp*p) + (1-thetar)*(tau_r*X_a) #Target Public Investment
-Gi        #Public investment
-Gs = fi3*w*(fi4*pop)   #Government transfers
-ji_Lfx =ji0 + ji1*NIIP + ji2*((YeDot+Ivd)/Yp)    #Cross border lending rationing parameter
-ifxb=(1+theta_Lfx)*ifp #Cross border lending rate
-theta_Lfxb = theta0_Lfxb*rsk #Cross border lending risk premium
-idLh = (1+phiLh)*idLf    #Interest rate on Households Loans
-Divb_W = (EQb_W/EQb)*Divb    #Bank Dividends paid to the RoW
-Divb_H = (EQb_H/EQb)*Divb     #Bank Dividends paid to the households
-EQb       #Banks equities
-EQb_W     #Banks equities owned by the RoW (Stock)
-EQb_H     #Banks equities owned by the households (Stock)
-psi_wffd = psi0 + psi1*(rBG_e-rW_e)       #Share of portfolio flows/government bonds entering to the economy*****
-Fdi= #Total FDI flows
-Fdi_G =etafg*Fdi #Greenfield FDI
-Fdi_NG = (1-etafg)*Fdi #Non-Greenfield FDI
-EQ_H      #Total equities owned by the household
-EQ_W      #Total equities owned by the RoW
-Rem       #Remittances
-
-#Time Derivatives
-X_aDot= sigmaX_aut*X_a  #Autonomous exports growth
-CondDot = betacon*(CondT-Cond) #Change in Desired Consumption
-LdhDot = ipsilon0 + ipsilon1*(Cond)^ipsilon2   #Households loans demand
-DepgDot =  thetar*(tau_r*X_a)  #Government deposits variation
-GiDot = betagi*(GiT-Gi) #Change in Public Investment
-LfxbdesDot = LfxfdesDot     #Desired Banks demand for cross border lending.
-FdiDot = gammafdi*Fdi #Total FDI growth
-EQfDot=EQf_WDot+EQf_HDot   #Change in Firms equities
-EQf_WDot = Fdi_G*en + xi_f*Fdi_NG*en  #Change in Firms equities owned by the RoW
-EQf_HDot=????#Change in Firms equities owned by the households***
-EQbDot=EQb_WDot+EQb_HDot#Change in Banks equities
-EQb_WDot=(1-xi_f)*Fdi_NG*en    #Change in Banks equities owned by the RoW
-EQb_HDot=????#Change in Banks equities owned by the households***
-EQ_HDot = EQf_HDot + EQb_HDot  #Change in total equities owned by the household
-EQ_WDot = EQf_WDot + EQb_WDot    #Change in total equities owned by the RoW
-RemDot  = fi_r*Rem      #Remittances growth 
-
-#Parameters
-sigmaX_aut =          #Autonomous exports growth rate
-kappa2 =              #Investment sensitivity to utilization rate of capital
-xi_f=                 #Share of non - greenfield FDI allocated into the firms sector
-tau_r                 #Tax rate on autonomous exports
-ipsilon0              #Autonomous households loans demand 
-ipsilon2              #Elasticity of credit demand with respect to desired consumption
-rep                   #Average Repayment ratio
-thetar                #Share of royalties that are not invested
-fi1                   #Share of GDP allocated to public consumption
-fi2                   #Share of GDP invested by the government
-fi3                   #Share of nominal wages in social transfers equation
-fi4                   #Share of the total population that receive government transfers
-betagi                #Public investment adjustment parameter
-ji0                   #Autonomous cross border lending rationing
-ji1                   #Sensitivity of cross border lending to NIIP 
-ji2                   #Sensitivity of cross border lending to GDP growth rate.
-theta0_Lfxb            #Sensitivity of cross border lending to country risk
-phiLh                #Mark-up over firms interest rate
-psi0                  #Autonomous share of portfolio flows/government bonds entering to the economy
-psi1                  #sensitivity of portfolio flows to the bonds yield gap
-gammafdi              #Total FDI growth rate
-etafg                 #Ratio of greenfield FDI to total FDI
-fi_r                  #Remittances growth rate
-
 ##intermediate variables
 
 #--------
@@ -132,10 +49,10 @@ rfe=FFe/(p*Kap)#(*24*)
 TFNf=Id*p-REf-xi_f*Fdi_NG*en#(*Nominal, domestic currency*)(*25*)
 #Retained earnings for firms
 REf=sf*FFe#(*26*)
-#Target arbitrage parameter for firms loans
-betalftar=betalfmin+tanh(beta1*(arbf))#(*31*)
+#arbitrage parameter for firms loans
+betalf=betalfmin+beta1*(arbf)#(*31*)
 #arbitrage condition 
-arbf=(cd-cfx)/idLftar#(*32*)
+arbf= cd-cfx#(*32*)
 cd=1+idLftar#(*32.a*)
 cfx=(1+ifxf)*(ene+eneDot)/en#(*32.b*)
 #Actual Gross Profits
@@ -272,7 +189,7 @@ GFF=alphagff*GDPw*pw# (*Nominal, foreign currency*)(*90*)
 #Share of portfolio flows/government bonds entering to the economy*****
 psi_wffd = psi0 + psi1*(arbrow)      
 #Rest of the world arbitrage condition
-arbrow= (rBG_e - rW_e)/rW_e #(*Not numbered*)
+arbrow= rBG_e - rW_e #(*Not numbered*)
 #Expected domestic yield
 rBG_e = ((1+ibg)*(1-rsk))/((eneDot+ene)/en) #(*92*)
 #Expected foreign yield
@@ -337,7 +254,6 @@ Kap=Ir-delta*Kap #Gross Capital Formation (*Real*) (*20*)
 Lfxfdes=betalf*TFNf/en#(*27*)#Check equation 
 Lfxf = Lfxb #New FX Loans borrowed by the firms(*Nominal, foreign currency*)(*40*)
 Ldf=TFNf-LfxfDot*en# New Domestic Loans Borrowed by the firms (*Nominal, domestic currency*)(*29*)
-betalf=betapar*(betalftar-betalf) #Change in the firms arbitrage condition (*30*)
 Dfxf=eta*LfxfDot #New Firms FX Deposits(*Nominal, foreign currency*)(*33*)
 a=a*(alphaa) #Labour Productivity Growth (*76*)
 Pop=Pop*alphap #Population Growth (*Not numbered)
@@ -376,215 +292,157 @@ Bgrow= psi_wffd*GFF*en #Government Bonds Purchased by RoW (*Nominal, domestic cu
 GDPw=(alphap+alphaa)*GDPw #World GDP growth (*Not numbered)
 pw=pw*infls #World Inflation Rate (*Not numbered)
 ##initial values
-Ye=54.131971310113215 #Normalizar a 100 y ajustar las demás variables acorde a Ye
-V=5.255531195156623
+Ye=100 
+V=10
 sigmaMX=0.2
 sigmaMI=0.3
 sigmaMC=0.20406910810132728
 sigmaMg=0.06
 sigmaX=0.008023300970873786
-X_a=
-HUC=0.656073223897936
+X_a=7
+HUC=0.5275 
 p=1
-Kap=100 #Capital to Output Ratio
-Lfxfdes=
-Lfxb=5.93779845745427
-Lfxf=5.93779845745427
-Ldf=53.44018611708843
-betalf=0.1
-Dfxf = 1.7177984574542697
-a=0.95
-Pop=50
-w=0.5451854311441371
-Cond=26.444942832713963
-Ldh=
-Bgh=2.68236204752303
-Deph=66.23931691486177
-Depg=
-Gi=
-Bg=17.88241365015353
-Bgb=15.2537459874519
-Lfxbdes=
-Lfxb
+Kap=185  
+Lfxb=10
+Lfxf=10
+Ldf=30
+Dfxf = 2.89
+a=1.35
+Pop=92  
+w=0.481
+Cond=65
+Ldh=10
+Bgh=12.5
+Deph=30
+Depg=3
+Gi=2
+Bg=50
+Bgb=25
 prem=0.04
-Rfxb=1.7177984574542697
-Rfxcb=4.22
-Ad=2.403931691486177
-Res=6.6239316914861766
-OFb=6.620920804857162
-idLf=0.10229006095735384
-Fdi=
-EQf_W = 
-EQb_W= 
-EQ_H =  
-EQf_H=
-EQb_H=
-EQf=
-EQb=
+Rfxb= 2.89
+Rfxcb= 15
+Ad=4
+Res=3.3
+OFb=3.3
+idLf=0.10
+Fdi=4
+EQf_W = 14.5 
+EQb_W= 0.78
+EQ_H = 137.52  
+EQf_H= 130.5 
+EQb_H= 7.02
+EQf=145
+EQb=7.8
 en=1
 ene=1
-Rfx=5.93779845745427
-Bgrow=0
-GDPw=1353.2992827528303
+Rfx= 17.89
+Bgrow=12.5
+GDPw= 3000
 pw=1
 ##parameters
-alphaa = 0.00384
-alphap = 0.015
-beta5 = 25 #Ningún parámetro aparece en las ecuaciones así.
-alphak = 0.4
-delta = 0.2
-alphagff = - #No está calibrado por DNP. 
-omega1 = 0.12
-omega2 = 0.8
-omega3 = 1
-nu2 = 0.2
+alphaa = 0.02
+alphap = 0.01
+alphak = 0.55
+delta = 0.065
+alphagff = 0.07
+omega1 = 0.1
+omega2 = 1
+omega3 = 0.9
+nu2 = 0.25
 betacon = 4
-zeta = 10 #Ningún parametro aparece así. 
+zeta = 10
 betay = 4
 betaimp = 1
 betaexp = 1
-betapar = 0
-mpc1s = 0.85 #Ningún parametro aparece así.
-mpc2s = 0.07 #Ningún parametro aparece así.
-mpc3s = 0.4  #Ningún parametro aparece así.
-alphav = 0.25
-sf = 0.45
-kappa0 = 0.23
-kappa1 = - #No calibrado por DNP.
-mu0 = 0
-mu1 = 0
+betapar = 0.5
+alphav = 0.1
+sf = 0.5
+kappa0 = 0.015
+kappa1 = 1.5
+mu0 = 0.8
+mu1 = 2
 digamma = 0.12
-upsilons = 0.85 #Ningún parametro aparece así.
-iota1 = 0.007  #Ningún parametro aparece así.
-iota2 = 0.04   #Ningún parametro aparece así.
 rrr = 0.1
 Delta = 1
-premfs = 0.04   #Ningún parametro aparece así.
-betae = 0.8 
-betaene = 0.9 
-Upsilon = 1   #No calilibrado por DNP
-risks = 0     #Ningún parametro aparece así.
-levs = 0.1    #Ningún parametro aparece así.
-sampi2 = 0.1
-rskmin = 0.015 #Ningún parametro aparece así.
+betae = 0.7
+betaene = 0.75
+Upsilon = 1
 sigmaene = 1
-iota7 = 0.0325 
-iota8 = 1
-iota9 = 0.02  #No se calibro por DNP
-tauw = 0.025  #Supuse que es sobre los salarios
-tauPib = 0.2  
-tauPif = 0.253
-rho1 = 0.2743
-rho2 = 0.08
+iota7 = 0.015
+iota8 = 0.3
+iota9 = 0.02
+tauw = 0.2
+tauPib = 0.2
+tauPif = 0.2
 iota5 = 0.05
-sigmaMGmin = - #No se calibro por DNP
-sigmaMXmin = - #No se calibro por DNP
-sigmaMImin = - #No se calibro por DNP
-sigmaMCmin = - #No se calibro por DNP
-sigmaM = 0.2  ##No se calibro por DNP*
-betalfmin = 0
+sigmaMGmin = 0
+sigmaMXmin = 0.1
+sigmaMImin = 0.1
+sigmaMCmin = 0.1
+sigmaM = 0.2
+betalfmin = 0.1
 beta11 = 5
-betaib = 2
-betaidLff = 0.2
-beta1 = 0
+betaidLf = 0.2
+beta1 = 2
 beta10 = 300
-sigmaer = 0.75
-beta12 = 0.1
-alpharem=0.000273306749350    #Ningún parámetro aparece así
-eta=0
-Sigma=0.418267211437954       #No calibardo por DNP
-omega0=0.06
-sigmaMCs=0.204069108101327    #Ningún parámetro aparece así
-betain=0.967365028203062      #No calibrado (desconocido)
-betax=0.996108949416342       #No calibrado (desconocido)
-betac=0.859933555894369       #No calibrado (desconocido)
-betagg=0.999998940462032      #No calibrado (desconocido)
-sigmaX0=0.008023300970874     #No calibrado (desconocido)
-lambda0a=0.0902923
-lambda0wl=1.14086
-lambda0w=1.15768     
-sigmaX1=0.0008               #No está en el c?digo       
-Omega1BB=0.155118
-Omega1BA=0
-rho3=0.8
-phi1=0.00096
-ifpr=0.053009242610299      #no está en las ecuaciones del paper.
-ifbr=0.050773586458241      #No está en las ecuaciones del paper.
-sampi1=0.042455788088413    #No aparece en las ecuaciones.
-koppa=0.0426
-kuku=0.014899607236136      #No calibrada por DNP.
-lambdalev=0
+sigmaer = 0.6
+eta=0.289
+Sigma=0.418267211437954
+omega0=0.018564821480475
+betain=0.967365028203062
+betax=0.996108949416342
+betac=0.859933555894369
+betagg=0.999998940462032
+sigmaX0=0.008023300970874
+lambda0a=0.908093285989112
+lambda0wl=1.144122577241310
+lambda0w=1.191207257567350
+Omega1BA=0.018751579439052
+rho3=0.000670098091130
+phi1=0.000983225146863
+ifpr=0.053009242610299
+ifbr=0.050773586458241
+kuku=0.014899607236136
 epsilonX=0.25
 epsilonin=0.25
 epsilonc=0.75
 epsilong=0.2
-lambda1a = 0
-lambda1wl = 0
-lambda1w = 0
-sigmaBB = 1                 #No calibrado por DNP
-sigmaBA = 0
-phi = 0.00047868
+lambda1a = 0.1
+lambda1wl = 0.05
+lambda1w = 0.5
+sigmaBA = 2
+phi = 0.7
 phi0 = 0.005
 phi3 = 2
-Omega0BB = 0.7
-Omega0BA = 0.02             #No calibrado por DNP
-idLffss=0.102290060957353     #No aparece en el codigo
-ifxbss=0.062290060957354    #No aparece en el codigo 
-infls=0.046188397196641     #No calibrado por DNP
-Yes=54.131971310113200      #No aparece en el codigo
-Vs=5.255531195156620        #No aparece en el codigo
-ws=0.545185431144137        #No aparece en el codigo
-Ads=2.403931691486170       #No aparece en el codigo
-Bgs=17.882413650153500      #No aparece en el codigo
-Bgbs=15.200051602630500     #No aparece en e codigo
-Bghs=2.682362047523020      #No aparece en e codigo
-HUCs=0.656073223897936      #No aparece en e codigo
-Ldfs=53.440186117088400     #No aparece en e codigo
-Deps=66.239316914861700     #No aparece en e codigo
-Ress=6.623931691486170      #No aparece en e codigo
-sigmaXs=0.008023300970874   #No aparece en e codigo
-Cons=26.444942832713900     #No aparece en e codigo
-OFbs=6.620920804857160      #No aparece en e codigo
-Bgcbs=0                     #No aparece en e codigo
-Lfxbs=5.937798457454260     #No aparece en e codigo
-etas=0.289298882365695      #No aparece en e codigo
-alpharems=0.000273306749350 #No aparece en e codigo
-omega0s=0.018564821480475   #No aparece en e codigo
-Rfxbs=1.717798457454260     #No aparece en e codigo
-Rfxcbs=4.220000000000000    #No aparece en e codigo
-sigmas=0.418267211437954    #No aparece en e codigo
-iFs=0.069044916355633       #No aparece en e codigo
-IMi=2.85                    #No aparece en e codigo
-IMx=2.171585489838710       #No aparece en e codigo
-IMg=0.439746061692340       #No aparece en e codigo
-IMc=5.396595897662520       #No aparece en e codigo
-sigmaX_aut =   
-kappa2=
-xi_f=  
-tau_r=
-ji0=
-ji1=
-ji2=
-theta_Lfxb=
-theta0_Lfxb=
-phiLh=
-rep=
-fi1=
-fi2=
-fi3=
-fi4=
-thetar=
-taumC=
-taumx=
-taumI=
-psi0=
-psi1=
-etafg=
-ipsilon2=
-betagi=
-fi_r=
-switchpolicy=0              #No calibrado por DNP
-valuepolicy=-0.0075         #No aparece en e codigo 
+Omega0BA = 0.02
+infls=0.046188397196641
+sigmaX_aut = 0.01   
+kappa2= 1
+xi_f= 0.7 
+tau_r=0.05 
+ji0= 0.6 
+ji1= -0.2
+ji2=  0.1
+theta0_Lfxb=2
+phiLh=0.5
+rep=0.01
+fi1=0.14
+fi2=0.02
+fi3=0.1
+fi4=0.15
+thetar=0.2
+taumC=0.05
+taumx=0.025
+taumI=0.025
+psi0=0.005
+psi1=1
+etafg=0.1
+ipsilon2=0.02
+betagi=0.75
+fi_r=0.01      
+gammafdi=0.01
+switchpolicy=0              
+valuepolicy=-0.0075          
 ##time
 begin = 0
 end = 50
