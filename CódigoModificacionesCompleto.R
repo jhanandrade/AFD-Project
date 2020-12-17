@@ -124,7 +124,7 @@ Divb_H = (EQb_H/EQb)*Divb
 #----------
 
 #Desired target Consumption 
-ConTd =mpc1*(Y_Lh)+mpc3*(YF_Lh)+mpc2*(Deph+Bgh) #(*Nominal, domestic currency*)(*80*) #Check Equation: Expected Firms profits
+ConTd =mpc1*(YF_Lh)+mpc3*(YF_Lh)+mpc2*(Deph+Bgh) #(*Nominal, domestic currency*)(*80*) #Check Equation: Expected Firms profits
 #Households net labour income
 YD_Lh=((1-tauw)*w*L+Ge) #(*nominal,domestic currency*)
 #Households financial income
